@@ -1,0 +1,32 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "animated_type_ahead_searchbar",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "animated_type_ahead_searchbar (profile mode)",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "animated_type_ahead_searchbar_example",
+            "cwd": "example\\animated_type_ahead_searchbar_example",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "animated_type_ahead_searchbar_example (profile mode)",
+            "cwd": "example\\animated_type_ahead_searchbar_example",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        }
+    ]
+}

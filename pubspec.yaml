@@ -1,7 +1,7 @@
 name: animated_type_ahead_searchbar
 description: A new Flutter package project.
 version: 0.0.1
-homepage:
+homepage: https://github.com/Atharv-Joshi/animated_type_ahead_searchbar
 
 environment:
   sdk: ">=2.15.1 <3.0.0"

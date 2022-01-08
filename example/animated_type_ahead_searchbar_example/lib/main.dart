@@ -35,12 +35,11 @@ class HomePage extends StatelessWidget {
           child: AnimatedTypeAheadSearchBar(
             width: MediaQuery.of(context).size.width * 0.88,
             searchData: const [
-              'Rohit',
-              'Atharv',
-              'Akshay',
-              'Nipur',
-              'Nikant',
-              'Ninad'
+              'Steel Pan',
+              'Harp',
+              'Maracas',
+              'Clarinet',
+              'Slide Whistle',
             ],
             onSuffixTap: null,
             onListTileTap: (String suggestion) {

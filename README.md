@@ -1,4 +1,10 @@
-This package merges [animated searchbar](https://pub.dev/packages/animated_search_bar) and [flutter ahead](https://pub.dev/packages/flutter_typeahead) to give a animated type ahead search bar.
+# Animated Type Ahead SearchBar
+
+This package merges [animated searchbar](https://pub.dev/packages/animated_search_bar) and [flutter typeahead](https://pub.dev/packages/flutter_typeahead) to give a animated type ahead search bar.
+
+![Android Emulator - Pixel_5_API_29_5554 2022-01-08 13-17-39](https://user-images.githubusercontent.com/53505850/148636640-59b382de-12d0-47af-91d0-954519335f11.gif)
+
+
 
 ## Features
 

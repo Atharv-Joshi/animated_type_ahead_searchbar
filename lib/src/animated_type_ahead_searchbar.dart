@@ -2,12 +2,10 @@ import 'dart:developer' as developer;
 import 'dart:math';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-// import 'package:flutter/services.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 
 class AnimatedTypeAheadSearchBar extends StatefulWidget {
   final double? width;
-  // final TextEditingController? textController;
   final Icon? suffixIcon;
   final Icon? prefixIcon;
   final String? hintText;
@@ -21,7 +19,6 @@ class AnimatedTypeAheadSearchBar extends StatefulWidget {
   final Color? color;
   final Function? onListTileTap;
   final List? searchData;
-  // final List<TextInputFormatter> inputFormatters;
   final Widget? loadingBuilder;
   final Widget? errorBuilder;
   final Widget? noItemsFoundBuilder;
@@ -31,9 +28,6 @@ class AnimatedTypeAheadSearchBar extends StatefulWidget {
 
     /// The width is required
     required this.width,
-
-    /// The textController cannot be null
-    // required this.textController,
 
     ///suffixicon is optional
     this.suffixIcon = const Icon(
@@ -46,9 +40,6 @@ class AnimatedTypeAheadSearchBar extends StatefulWidget {
       Icons.search,
       size: 20.0,
     ),
-
-    // ///helptext is optional
-    // this.helpText = "Search...",
 
     ///hintText is optional,default value is Search
     this.hintText = 'Search...',
@@ -65,14 +56,8 @@ class AnimatedTypeAheadSearchBar extends StatefulWidget {
     ///searchData is required
     required this.searchData,
 
-    ///onSubmit cannot be null
-    // required this.onSubmit,
-
     //onListTileTap cannot be null
     required this.onListTileTap,
-
-    //getSuggestions cannot be null
-    // required this.getSuggestions,
 
     /// choose your custom color
     this.color = Colors.white,
@@ -86,9 +71,6 @@ class AnimatedTypeAheadSearchBar extends StatefulWidget {
     /// make the keyboard to show automatically when the searchbar is expanded
     this.autoFocus = true,
 
-    /// TextStyle of the contents inside the searchbar
-    // required this.style,
-
     /// close the search on suffix tap
     this.closeSearchOnSuffixTap = false,
 
@@ -100,9 +82,6 @@ class AnimatedTypeAheadSearchBar extends StatefulWidget {
 
     ///Default value is Container()
     this.noItemsFoundBuilder,
-
-    /// can add list of inputformatters to control the input
-    // this.inputFormatters,
   }) : super(key: key);
 
   @override

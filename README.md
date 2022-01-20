@@ -6,26 +6,87 @@ This package merges [animated searchbar](https://pub.dev/packages/animated_searc
 
 
 
+
+
 ## Features
 
-TODO: List what your package can do. Maybe include images, gifs, or videos.
+- Shows suggestions in an overlay that floats on top of other widgets
+- Allows you to specify what the suggestions will look like through a builder function
+- Allows you to specify what happens when the user taps a suggestion
+- Provides high customizability; you can customize the suggestion box decoration
 
-## Getting started
+## Installation
 
-TODO: List prerequisites and provide or point to information on how to
-start using the package.
+Please refer to [these instructions](https://pub.dev/packages/animated_type_ahead_searchbar/install)
 
 ## Usage
 
-TODO: Include short and useful examples for package users. Add longer examples
-to `/example` folder. 
-
 ```dart
-const like = 'sample';
+  final List searchData = const [
+    'Steel Pan',
+    'Harp',
+    'Cake',
+    'Maracas',
+    'Clarinet',
+    'Odyssey',
+    'Slide Whistle',
+    'Piano',
+  ];
+
+  AnimatedTypeAheadSearchBar(
+            width: MediaQuery.of(context).size.width * 0.88,
+            onSuffixTap: null,
+            itemBuilder: (String suggestion) {
+              return Material(
+                color: Colors.white,
+                borderOnForeground: false,
+                child: Container(
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 12, horizontal: 10),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Flexible(
+                        child: Text(
+                          suggestion,
+                          overflow: TextOverflow.visible,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              );
+            },
+            onSuggestionSelected: (suggestion) {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => Home(text: suggestion)));
+              FocusScope.of(context).unfocus();
+            },
+            suggestionCallback: (String pattern) {
+              List<String> suggestions = [];
+              if (pattern.length < 2) return suggestions;
+              for (var i = 0; i < searchData.length; i++) {
+                if (searchData[i]
+                    .toLowerCase()
+                    .contains(pattern.toLowerCase())) {
+                  suggestions.add(searchData[i]);
+                }
+              }
+              return suggestions;
+            },
+          );
 ```
 
-## Additional information
+## Shoutout to the Developers
 
-TODO: Tell users more about the package: where to find more information, how to 
-contribute to the package, how to file issues, what response they can expect 
-from the package authors, and more.
+Huge thanks to the developers of [flutter_typeahead](https://pub.dev/packages/flutter_typeahead) and [animated_search_bar](https://pub.dev/packages/animated_search_bar) for such amazing packages.
+
+## Future
+Many optional parameters of [flutter_typeahead](https://pub.dev/packages/flutter_typeahead) and [animated_search_bar](https://pub.dev/packages/animated_search_bar) are not exposed currently to the user.
+I plan to do so the users can use these packages at their full potential.
+
+## Contribution
+If you want to contibute please visit the github repository.
+

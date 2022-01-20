@@ -1,3 +1,15 @@
+## 0.0.2
+Following fields are now accessible to the developer(earlier these were given default values with no way of changing them)
+- getImmediateSuggestions 
+- autovalidateMode 
+- clearButtonMode 
+- textBoxDecoration 
+- textBoxPadding 
+- suggestionBoxDecoration 
+- itemBuilder 
+- onSuggestionSelected 
+- suggestionCallback 
+
 ## 0.0.1
 
 - can change suffix , prefix icon , prefix icon for text field

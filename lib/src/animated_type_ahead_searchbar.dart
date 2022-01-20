@@ -17,8 +17,7 @@ class AnimatedTypeAheadSearchBar extends StatefulWidget {
   final bool? autoFocus;
   final bool? closeSearchOnSuffixTap;
   final Color? color;
-  final Function? onListTileTap;
-  final List? searchData;
+  // final List? searchData;
   final Widget? loadingBuilder;
   final Widget? errorBuilder;
   final Widget? noItemsFoundBuilder;
@@ -28,6 +27,9 @@ class AnimatedTypeAheadSearchBar extends StatefulWidget {
   final BoxDecoration? textBoxDecoration;
   final EdgeInsets? textBoxPadding;
   final CupertinoSuggestionsBoxDecoration? suggestionBoxDecoration;
+  final Function itemBuilder;
+  final Function onSuggestionSelected;
+  final Function suggestionCallback;
 
   const AnimatedTypeAheadSearchBar({
     Key? key,
@@ -49,6 +51,15 @@ class AnimatedTypeAheadSearchBar extends StatefulWidget {
 
     ///suggestions box decoration
     this.suggestionBoxDecoration,
+
+    ///item builder
+    required this.itemBuilder,
+
+    ///on suggested selected
+    required this.onSuggestionSelected,
+
+    ///suggestions callback
+    required this.suggestionCallback,
 
     /// The width is required
     required this.width,
@@ -78,10 +89,7 @@ class AnimatedTypeAheadSearchBar extends StatefulWidget {
     this.prefixIconTextField,
 
     ///searchData is required
-    required this.searchData,
-
-    //onListTileTap cannot be null
-    required this.onListTileTap,
+    // required this.searchData,
 
     /// choose your custom color
     this.color = Colors.white,
@@ -265,83 +273,53 @@ class _AnimatedTypeAheadSearchBarState extends State<AnimatedTypeAheadSearchBar>
                   child: Material(
                     // color: Colors.transparent,
                     child: CupertinoTypeAheadFormField(
-                      getImmediateSuggestions:
-                          widget.getImmediateSuggestions ?? false,
-                      autovalidateMode:
-                          widget.autovalidateMode ?? AutovalidateMode.disabled,
-                      animationDuration: const Duration(milliseconds: 0),
-                      suggestionsBoxController: _suggestionsBoxController,
-                      loadingBuilder: (c) {
-                        return widget.loadingBuilder ?? Container();
-                      },
-                      errorBuilder: (context, o) {
-                        return widget.errorBuilder ?? Container();
-                      },
-                      noItemsFoundBuilder: (context) {
-                        return widget.noItemsFoundBuilder ?? Container();
-                      },
-                      textFieldConfiguration: CupertinoTextFieldConfiguration(
-                        placeholder: widget.hintText ?? 'Search',
-                        controller: _typeAheadController,
-                        clearButtonMode: widget.clearButtonMode ??
-                            OverlayVisibilityMode.always,
-                        decoration: widget.textBoxDecoration ??
-                            BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.circular(6)),
-                        padding: widget.textBoxPadding ??
-                            const EdgeInsets.symmetric(
-                                horizontal: 20, vertical: 9),
-                        prefix: widget.showPrefixIconTextField ?? true
-                            ? widget.prefixIconTextField ??
-                                const Padding(
-                                  padding: EdgeInsets.only(left: 0),
-                                  child: Icon(Icons.search),
-                                )
-                            : Container(),
-                      ),
-                      suggestionsBoxDecoration: widget.suggestionBoxDecoration ??
-                          CupertinoSuggestionsBoxDecoration(
-                              color: Colors.black,
-                              border: Border.all(width: 0),
-                              borderRadius: BorderRadius.circular(8)),
-                      suggestionsCallback: (pattern) {
-                        return Future.delayed(
-                          const Duration(milliseconds: 200),
-                          () async {
-                            return getSuggestions(pattern);
-                          },
-                        );
-                      },
-                      itemBuilder: (context, String suggestion) {
-                        return Material(
-                          color: Colors.white,
-                          borderOnForeground: false,
-                          child: InkWell(
-                            onTap: () => widget.onListTileTap!(suggestion),
-                            child: Container(
-                              padding: const EdgeInsets.symmetric(
-                                  vertical: 12, horizontal: 10),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Flexible(
-                                    child: Text(
-                                      suggestion,
-                                      overflow: TextOverflow.visible,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        );
-                      },
-                      onSuggestionSelected: (String suggestion) {
-                        _typeAheadController.text = suggestion;
-                      },
-                    ),
+                        getImmediateSuggestions:
+                            widget.getImmediateSuggestions ?? false,
+                        autovalidateMode: widget.autovalidateMode ??
+                            AutovalidateMode.disabled,
+                        animationDuration: const Duration(milliseconds: 0),
+                        suggestionsBoxController: _suggestionsBoxController,
+                        loadingBuilder: (c) {
+                          return widget.loadingBuilder ?? Container();
+                        },
+                        errorBuilder: (context, o) {
+                          return widget.errorBuilder ?? Container();
+                        },
+                        noItemsFoundBuilder: (context) {
+                          return widget.noItemsFoundBuilder ?? Container();
+                        },
+                        textFieldConfiguration: CupertinoTextFieldConfiguration(
+                          placeholder: widget.hintText ?? 'Search',
+                          controller: _typeAheadController,
+                          clearButtonMode: widget.clearButtonMode ??
+                              OverlayVisibilityMode.always,
+                          decoration: widget.textBoxDecoration ??
+                              BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(6)),
+                          padding: widget.textBoxPadding ??
+                              const EdgeInsets.symmetric(
+                                  horizontal: 20, vertical: 9),
+                          prefix: widget.showPrefixIconTextField ?? true
+                              ? widget.prefixIconTextField ??
+                                  const Padding(
+                                    padding: EdgeInsets.only(left: 0),
+                                    child: Icon(Icons.search),
+                                  )
+                              : Container(),
+                        ),
+                        suggestionsBoxDecoration:
+                            widget.suggestionBoxDecoration ??
+                                CupertinoSuggestionsBoxDecoration(
+                                    color: Colors.black,
+                                    border: Border.all(width: 0),
+                                    borderRadius: BorderRadius.circular(8)),
+                        suggestionsCallback: (pattern) async =>
+                            widget.suggestionCallback(pattern),
+                        itemBuilder: (context, suggestion) =>
+                            widget.itemBuilder(suggestion),
+                        onSuggestionSelected: (suggestion) =>
+                            widget.onSuggestionSelected(suggestion)),
                   ),
                 ),
               ),
@@ -408,15 +386,15 @@ class _AnimatedTypeAheadSearchBarState extends State<AnimatedTypeAheadSearchBar>
     );
   }
 
-  List<String> getSuggestions(String pattern) {
-    List<String> suggestions = [];
-    if (pattern.length < 2) return suggestions;
-    for (var i = 0; i < widget.searchData!.length; i++) {
-      if (widget.searchData![i].toLowerCase().contains(pattern.toLowerCase())) {
-        suggestions.add(widget.searchData![i]);
-        // if (suggestions.length > 30) break;
-      }
-    }
-    return suggestions;
-  }
+  // List<String> getSuggestions(String pattern) {
+  //   List<String> suggestions = [];
+  //   if (pattern.length < 2) return suggestions;
+  //   for (var i = 0; i < widget.searchData!.length; i++) {
+  //     if (widget.searchData![i].toLowerCase().contains(pattern.toLowerCase())) {
+  //       suggestions.add(widget.searchData![i]);
+  //       // if (suggestions.length > 30) break;
+  //     }
+  //   }
+  //   return suggestions;
+  // }
 }

@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:animated_type_ahead_searchbar/animated_type_ahead_searchbar.dart';
 import 'package:animated_type_ahead_searchbar_example/home.dart';
 import 'package:flutter/material.dart';
@@ -25,6 +23,16 @@ class MyApp extends StatelessWidget {
 }
 
 class HomePage extends StatelessWidget {
+  final List searchData = const [
+    'Steel Pan',
+    'Harp',
+    'Cake',
+    'Maracas',
+    'Clarinet',
+    'Odyssey',
+    'Slide Whistle',
+    'Piano',
+  ];
   const HomePage({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
@@ -34,21 +42,46 @@ class HomePage extends StatelessWidget {
           margin: const EdgeInsets.fromLTRB(20, 20, 0, 0),
           child: AnimatedTypeAheadSearchBar(
             width: MediaQuery.of(context).size.width * 0.88,
-            searchData: const [
-              'Steel Pan',
-              'Harp',
-              'Maracas',
-              'Clarinet',
-              'Slide Whistle',
-            ],
             onSuffixTap: null,
-            onListTileTap: (String suggestion) {
-              log('tapped list tile : $suggestion');
+            itemBuilder: (String suggestion) {
+              return Material(
+                color: Colors.white,
+                borderOnForeground: false,
+                child: Container(
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 12, horizontal: 10),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Flexible(
+                        child: Text(
+                          suggestion,
+                          overflow: TextOverflow.visible,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              );
+            },
+            onSuggestionSelected: (suggestion) {
               Navigator.push(
                   context,
                   MaterialPageRoute(
                       builder: (context) => Home(text: suggestion)));
               FocusScope.of(context).unfocus();
+            },
+            suggestionCallback: (String pattern) {
+              List<String> suggestions = [];
+              if (pattern.length < 2) return suggestions;
+              for (var i = 0; i < searchData.length; i++) {
+                if (searchData[i]
+                    .toLowerCase()
+                    .contains(pattern.toLowerCase())) {
+                  suggestions.add(searchData[i]);
+                }
+              }
+              return suggestions;
             },
           ),
         ),

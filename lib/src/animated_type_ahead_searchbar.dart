@@ -22,9 +22,33 @@ class AnimatedTypeAheadSearchBar extends StatefulWidget {
   final Widget? loadingBuilder;
   final Widget? errorBuilder;
   final Widget? noItemsFoundBuilder;
+  final bool? getImmediateSuggestions;
+  final AutovalidateMode? autovalidateMode;
+  final OverlayVisibilityMode? clearButtonMode;
+  final BoxDecoration? textBoxDecoration;
+  final EdgeInsets? textBoxPadding;
+  final CupertinoSuggestionsBoxDecoration? suggestionBoxDecoration;
 
   const AnimatedTypeAheadSearchBar({
     Key? key,
+
+    ///get immediate suggestions : default is false
+    this.getImmediateSuggestions,
+
+    /// autovalidate mode - always,disabled,on user interaction : default is disabled
+    this.autovalidateMode,
+
+    ///visibility of clear button - always,never,editing,notEditing : default is always
+    this.clearButtonMode,
+
+    ///decorationfor the type ahead textbox
+    this.textBoxDecoration,
+
+    ///padding for the textbox contents
+    this.textBoxPadding,
+
+    ///suggestions box decoration
+    this.suggestionBoxDecoration,
 
     /// The width is required
     required this.width,
@@ -241,8 +265,10 @@ class _AnimatedTypeAheadSearchBarState extends State<AnimatedTypeAheadSearchBar>
                   child: Material(
                     // color: Colors.transparent,
                     child: CupertinoTypeAheadFormField(
-                      getImmediateSuggestions: false,
-                      autovalidateMode: AutovalidateMode.disabled,
+                      getImmediateSuggestions:
+                          widget.getImmediateSuggestions ?? false,
+                      autovalidateMode:
+                          widget.autovalidateMode ?? AutovalidateMode.disabled,
                       animationDuration: const Duration(milliseconds: 0),
                       suggestionsBoxController: _suggestionsBoxController,
                       loadingBuilder: (c) {
@@ -257,12 +283,15 @@ class _AnimatedTypeAheadSearchBarState extends State<AnimatedTypeAheadSearchBar>
                       textFieldConfiguration: CupertinoTextFieldConfiguration(
                         placeholder: widget.hintText ?? 'Search',
                         controller: _typeAheadController,
-                        clearButtonMode: OverlayVisibilityMode.never,
-                        decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(6)),
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 10, vertical: 9),
+                        clearButtonMode: widget.clearButtonMode ??
+                            OverlayVisibilityMode.always,
+                        decoration: widget.textBoxDecoration ??
+                            BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(6)),
+                        padding: widget.textBoxPadding ??
+                            const EdgeInsets.symmetric(
+                                horizontal: 20, vertical: 9),
                         prefix: widget.showPrefixIconTextField ?? true
                             ? widget.prefixIconTextField ??
                                 const Padding(
@@ -271,7 +300,7 @@ class _AnimatedTypeAheadSearchBarState extends State<AnimatedTypeAheadSearchBar>
                                 )
                             : Container(),
                       ),
-                      suggestionsBoxDecoration:
+                      suggestionsBoxDecoration: widget.suggestionBoxDecoration ??
                           CupertinoSuggestionsBoxDecoration(
                               color: Colors.black,
                               border: Border.all(width: 0),

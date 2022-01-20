@@ -1,6 +1,6 @@
 name: animated_type_ahead_searchbar
-description: A new Flutter package project.
-version: 0.0.1
+description: This package merges animated searchbar and flutter typeahead to give a animated type ahead search bar.
+version: 0.0.2
 homepage: https://github.com/Atharv-Joshi/animated_type_ahead_searchbar
 
 environment:
